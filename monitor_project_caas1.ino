@@ -1,5 +1,5 @@
 #include <Servo.h>
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C.h>//tes
 #include <Wire.h>
 
 int servoPin = D0;
