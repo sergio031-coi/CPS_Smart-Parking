@@ -28,9 +28,9 @@ lcd.backlight();
 // Mengatur posisi kursor LCD  (kolom, baris)
   lcd.setCursor(0, 0);
   // Menampilkan Text pada LCD
-  lcd.print("SMART PARKING");
+  lcd.print("-SMART PARKING-");
   lcd.setCursor(0, 1);                       
-  lcd.print("Selamat Datang");             
+  lcd.print("Selamat Datang!");             
   delay(2000);           
   // Menghapus Text pada LCD  
   lcd.clear();
@@ -43,11 +43,11 @@ lcd.backlight();
   delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
-    lcd.print("Arief");
+    lcd.print("Arief Faturrachman");
     delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
-    lcd.print("Azmi");
+    lcd.print("Azmi Fasya");
     delay(1000);
     lcd.clear();
 }
@@ -72,7 +72,7 @@ Serial.println(val);
   {
         
       lcd.clear();
-      lcd.print("Selamat Datang SP");
+      lcd.print("Selamat Datang!");
      
       lcd.setCursor(0, 1);
       lcd.print("Parkiran Telkom");
