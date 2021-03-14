@@ -15,7 +15,8 @@ int jarakcm;
 LiquidCrystal_I2C lcd(0x27,D1,D2);
 
 void setup() {
-  
+
+// Pin pada sensor ultrasonic  
 pinMode(trigPinmasuk, OUTPUT);  
 pinMode(echoPinmasuk, INPUT);
 pinMode(trigPinparkir1, OUTPUT);
@@ -46,7 +47,7 @@ lcd.backlight();
   delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
-    lcd.print("Arief");
+    lcd.print("Arif");
     delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
