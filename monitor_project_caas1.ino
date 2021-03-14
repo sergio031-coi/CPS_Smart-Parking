@@ -1,8 +1,8 @@
 #include <Servo.h>
-#include <LiquidCrystal_I2C.h>//tes
+#include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 
-int servoPin = D0;
+int servoPin = D3;
 Servo servoMotor;       
 int trigPinmasuk = D5;       
 int echoPinmasuk = D6;
@@ -28,9 +28,9 @@ lcd.backlight();
 // Mengatur posisi kursor LCD  (kolom, baris)
   lcd.setCursor(0, 0);
   // Menampilkan Text pada LCD
-  lcd.print("-SMART PARKING-");
+  lcd.print("SMART PARKING");
   lcd.setCursor(0, 1);                       
-  lcd.print("Selamat Datang!");             
+  lcd.print("Selamat Datang");             
   delay(2000);           
   // Menghapus Text pada LCD  
   lcd.clear();
@@ -43,11 +43,11 @@ lcd.backlight();
   delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
-    lcd.print("Arief Faturrachman");
+    lcd.print("Arief");
     delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
-    lcd.print("Azmi Fasya");
+    lcd.print("Azmi");
     delay(1000);
     lcd.clear();
 }
@@ -72,8 +72,8 @@ Serial.println(val);
   {
         
       lcd.clear();
-      lcd.print("Selamat Datang!");
-     
+      lcd.print("Selamat Datang SP");
+      Serial.print("KEBUKA");
       lcd.setCursor(0, 1);
       lcd.print("Parkiran Telkom");
       delay(150); 
