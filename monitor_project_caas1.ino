@@ -47,11 +47,11 @@ lcd.backlight();
   delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
-    lcd.print("Arif");
+    lcd.print("Arif Faturrachman");
     delay(1000);
     lcd.clear(); 
     lcd.setCursor(0, 0); 
-    lcd.print("Azmi");
+    lcd.print("Azmi Fasya");
     delay(1000);
     lcd.clear();
 }
@@ -76,7 +76,7 @@ Serial.println(val);
   {
         
       lcd.clear();
-      lcd.print("Selamat Datang ");
+      lcd.print("Selamat Datang!");
       lcd.setCursor(0, 1);
       lcd.print("Parkiran Telkom");
       delay(150); 
