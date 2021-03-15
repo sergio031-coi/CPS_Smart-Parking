@@ -67,7 +67,7 @@ digitalWrite(trigPinmasuk, HIGH);
 delayMicroseconds(10); 
 digitalWrite(trigPinmasuk, LOW);
 duration = pulseIn(echoPinmasuk, HIGH);
-jarakcm = (duration/2) / 2.91;
+jarakcm = (duration/2) * 0.034;
 int val = digitalRead(PIR);
 Serial.print("Deteksi PIR: ");
 Serial.println(val);
@@ -103,7 +103,7 @@ Serial.println(val);
   delayMicroseconds(10);
   digitalWrite(trigPinparkir1, LOW);
   duration =pulseIn(echoPinparkir1, HIGH);
-  jarakcm= (duration/2) / 2.91;
+  jarakcm= (duration/2) * 0.034;
   for (int positionCounter = 0; positionCounter < 30; positionCounter++) {
       
     // scroll satu posisi ke kiri
