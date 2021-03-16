@@ -1,125 +1,123 @@
-#include <Servo.h>
 #include <LiquidCrystal_I2C.h>
+#include <Servo.h>  
+#include <Wire.h>      
 
 Servo servo;       
-int trigPinmasuk = D5;       
-int echoPinmasuk = D6;
-int trigPinparkir1 = D4;
-int echoPinparkir1 = D8;
+#define trigger1      D5  //trigger1  = trigger untuk portal masuk di pin D5       
+#define echo1         D6  //echo1     = echo untuk portal masuk di pin D6
+#define trigger2      D4  //trigger2  = trigger untuk parkir kendaraan di pin D4
+#define echo2         D8  //echo2     = echo untuk parkir kendaraan di pin D8
+#define PIR           D7  //PIR berada di Pin D7
 
-int PIR = D7;
-int pirState = LOW;
-int PIRval = 0;
-long duration;
-int jarakcm;        
-LiquidCrystal_I2C lcd(0x27,D1,D2);
+LiquidCrystal_I2C lcd(0x27,D2,D1); //0x27 adalah alamat untuk LCD, D2 pin SDA, D1 pin SCL
 
-void setup() {
-
-// Pin pada sensor ultrasonic  
-pinMode(trigPinmasuk, OUTPUT);  
-pinMode(echoPinmasuk, INPUT);
-pinMode(trigPinparkir1, OUTPUT);
-pinMode(echoPinparkir1, INPUT);
-
-pinMode(PIR, INPUT);
-servo.attach(D0);
-Serial.begin(9600); 
-lcd.begin();
-lcd.backlight();
-
+void setup() 
+{
+  
+  pinMode(trigger1, OUTPUT);  
+  pinMode(echo1, INPUT);
+  pinMode(trigger2, OUTPUT);
+  pinMode(echo2, INPUT);
+  servo.attach(D3);
+  delay(2000);
+  servo.write(0);
+  //delay(2000);
+  pinMode(PIR, INPUT);
+  Serial.begin(9600); 
+  lcd.begin();
+  lcd.backlight();
 
 // Mengatur posisi kursor LCD  (kolom, baris)
   lcd.setCursor(0, 0);
-  // Menampilkan Text pada LCD
+// Menampilkan Text pada LCD
   lcd.print("SMART PARKING");
   lcd.setCursor(0, 1);                       
   lcd.print("Selamat Datang");             
   delay(2000);           
-  // Menghapus Text pada LCD  
+// Menghapus Text pada LCD  
   lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Kelompok 2");
-    delay(2000);
-    lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Kelompok 2");
+  delay(2000);
+  lcd.clear();
   lcd.setCursor(0, 0); 
-    lcd.print("Sergio");
+  lcd.print("Sergio");
   delay(1000);
-    lcd.clear(); 
-    lcd.setCursor(0, 0); 
-    lcd.print("Arif Faturrachman");
-    delay(1000);
-    lcd.clear(); 
-    lcd.setCursor(0, 0); 
-    lcd.print("Azmi Fasya");
-    delay(1000);
-    lcd.clear();
+  lcd.clear(); 
+  lcd.setCursor(0, 0); 
+  lcd.print("Arief");
+  delay(1000);
+  lcd.clear(); 
+  lcd.setCursor(0, 0); 
+  lcd.print("Azmi");
+  delay(1000);
+  lcd.clear();
 }
 
 void loop() 
 {
 
-  //=============  ULTRASONIC MASUK  =================??
-  
-digitalWrite(trigPinmasuk, LOW);
-delayMicroseconds(2); 
-digitalWrite(trigPinmasuk, HIGH);
-delayMicroseconds(10); 
-digitalWrite(trigPinmasuk, LOW);
-duration = pulseIn(echoPinmasuk, HIGH);
-jarakcm = (duration/2) * 0.034;
-int val = digitalRead(PIR);
-Serial.print("Deteksi PIR: ");
-Serial.println(val);
+//=============  ULTRASONIC MASUK  =================??
 
- if(jarakcm <=35 && val == HIGH)
-  {
-        
+  long duration, jarak;
+  int kondisiPIR = digitalRead(PIR);
+  int pirState = LOW; 
+  int PIRval = 0; 
+  digitalWrite(trigger1, LOW);
+  delayMicroseconds(2); 
+  digitalWrite(trigger1, HIGH);
+  delayMicroseconds(10); 
+  digitalWrite(trigger1, LOW);
+  duration = pulseIn(echo1, HIGH);
+  jarak = (duration/2) / 29.1;
+
+  if(jarak >=0 && jarak <=5 )
+    {
+      
+      if(kondisiPIR == HIGH)
+      {
       lcd.clear();
-      lcd.print("Selamat Datang!");
+      lcd.print("Selamat Datang ");
       lcd.setCursor(0, 1);
-      lcd.print("Parkiran Telkom");
-      delay(150); 
+      lcd.print("Parkiran Telkom"); 
       servo.write(90);
-      Serial.println("Tes ultrasonic1");
-      Serial.print("Deteksi PIR: ");
-      Serial.println(val);
-
-    } 
-  
+      Serial.println("jarak"); 
+      
+      }
+      else
+      {
+       servo.write(0); 
+      }
+    }   
   else
-  {
-    servo.write(0);
-  }
-  delay(0);
+    {
+      servo.write(0);
+    }
+  delay(5000);
 
-  
 //==============  ULTRASONIC PARKIR1   ===============??
 
-
-  digitalWrite(trigPinparkir1, LOW);
+  digitalWrite(trigger2, LOW);
   delayMicroseconds(2);
-  digitalWrite(trigPinparkir1, HIGH);
+  digitalWrite(trigger2, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPinparkir1, LOW);
-  duration =pulseIn(echoPinparkir1, HIGH);
-  jarakcm= (duration/2) * 0.034;
-  for (int positionCounter = 0; positionCounter < 30; positionCounter++) {
-      
+  digitalWrite(trigger2, LOW);
+  duration =pulseIn(echo2, HIGH);
+  jarak= (duration/2) / 29.1;
+  
+  for (int positionCounter = 0; positionCounter < 30; positionCounter++) 
+  {
     // scroll satu posisi ke kiri
     lcd.scrollDisplayLeft();
     delay(100);
   }
-  
-  if(jarakcm <=35)
+  if(jarak >=0 && jarak <=5)
   { 
       lcd.clear();
       lcd.setCursor(15, 0);
-      lcd.print("Parkiran Penuh");
-      Serial.println("tes ultrasonic2");
-      
+      lcd.print("Parkiran Penuh");  
       delay(150);
-    
+      Serial.println("If");
   }
   else 
   {
@@ -127,7 +125,7 @@ Serial.println(val);
       lcd.setCursor(15, 0);
       lcd.print("Parkiran Kosong");
       delay(150);
-  
+      Serial.println("Else");
   }
-  delay(0); 
+  delay(1000); 
 }
