@@ -21,7 +21,6 @@ void setup()
   servo.attach(D3);
   delay(2000);
   servo.write(0);
-  //delay(2000);
   pinMode(PIR, INPUT);
   Serial.begin(9600); 
   lcd.begin();
