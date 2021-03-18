@@ -1,6 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>  
-#include <Wire.h>      
+
 
 Servo servo;       
 #define trigger1      D5  //trigger1  = trigger untuk portal masuk di pin D5       
@@ -18,7 +18,7 @@ void setup()
   pinMode(echo1, INPUT);
   pinMode(trigger2, OUTPUT);
   pinMode(echo2, INPUT);
-  servo.attach(D3);
+  servo.attach(D0);
   delay(2000);
   servo.write(0);
   pinMode(PIR, INPUT);
@@ -70,18 +70,16 @@ void loop()
   duration = pulseIn(echo1, HIGH);
   jarak = (duration/2) / 29.1;
 
-  if(jarak >=0 && jarak <=5 )
+  if(jarak >= 0 && jarak <=7  )
     {
-      
       if(kondisiPIR == HIGH)
       {
-      lcd.clear();
+       lcd.clear();
       lcd.print("Selamat Datang ");
       lcd.setCursor(0, 1);
       lcd.print("Parkiran Telkom"); 
       servo.write(90);
-      Serial.println("jarak"); 
-      
+      Serial.println("pintu terbuka"); 
       }
       else
       {
@@ -104,27 +102,21 @@ void loop()
   duration =pulseIn(echo2, HIGH);
   jarak= (duration/2) / 29.1;
   
-  for (int positionCounter = 0; positionCounter < 30; positionCounter++) 
-  {
-    // scroll satu posisi ke kiri
-    lcd.scrollDisplayLeft();
-    delay(100);
-  }
-  if(jarak >=0 && jarak <=5)
+  if(jarak >=0 && jarak <=7)
   { 
       lcd.clear();
-      lcd.setCursor(15, 0);
+      lcd.setCursor(0, 0);
       lcd.print("Parkiran Penuh");  
       delay(150);
-      Serial.println("If");
+      Serial.println("Parkiran Penuh");
   }
   else 
   {
       lcd.clear();
-      lcd.setCursor(15, 0);
+      lcd.setCursor(0, 0);
       lcd.print("Parkiran Kosong");
       delay(150);
-      Serial.println("Else");
+      Serial.println("Parkiran kosong");
   }
   delay(1000); 
 }
