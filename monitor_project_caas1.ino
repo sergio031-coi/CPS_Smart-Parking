@@ -1,7 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>  
 
-
 Servo servo;       
 #define trigger1      D5  //trigger1  = trigger untuk portal masuk di pin D5       
 #define echo1         D6  //echo1     = echo untuk portal masuk di pin D6
