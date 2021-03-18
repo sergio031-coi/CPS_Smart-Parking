@@ -59,8 +59,6 @@ void loop()
 
   long duration, jarak;
   int kondisiPIR = digitalRead(PIR);
-  int pirState = LOW; 
-  int PIRval = 0; 
   digitalWrite(trigger1, LOW);
   delayMicroseconds(2); 
   digitalWrite(trigger1, HIGH);
