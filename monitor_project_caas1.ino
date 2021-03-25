@@ -1,5 +1,17 @@
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>  
+#include <ESP8266WiFi.h>
+#include "AntaresESP8266HTTP.h"
+
+#define ACCESSKEY "d523c0ae9f0d6eb4:0b7d61861736096b" //API key Antares
+#define WIFISSID "Sergio" //SSID dan password wifi
+#define PASSWORD "12345678nz"
+#define projectName "Smart__Parking" //Nama Aplikasi Antares
+#define sensorultrasonik1 "Ultrasonik_Masuk"
+#define sensorPIR "PIR_Masuk"
+#define sensorultrasonik2 "Ultrasonik_Parkir" //Nama Device Antares
+
+AntaresESP8266HTTP antares(ACCESSKEY);
 
 Servo servo;       
 #define trigger1      D5  //trigger1  = trigger untuk portal masuk di pin D5       
@@ -24,7 +36,23 @@ void setup()
   Serial.begin(9600); 
   lcd.begin();
   lcd.backlight();
+  antares.setDebug(true);
+  
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFISSID, PASSWORD);
+  Serial.println("");
+ 
+  Serial.print("Connecting");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
 
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(WIFISSID);
+  
+  
 // Mengatur posisi kursor LCD  (kolom, baris)
   lcd.setCursor(0, 0);
 // Menampilkan Text pada LCD
@@ -77,6 +105,8 @@ void loop()
       lcd.print("Parkiran Telkom"); 
       servo.write(90);
       Serial.println("pintu terbuka"); 
+      antares.add("jarak", jarak);
+      antares.add("PIR", kondisiPIR);
       }
       else
       {
@@ -106,6 +136,7 @@ void loop()
       lcd.print("Parkiran Penuh");  
       delay(150);
       Serial.println("Parkiran Penuh");
+      antares.add("jarak", jarak);
   }
   else 
   {
@@ -115,5 +146,8 @@ void loop()
       delay(150);
       Serial.println("Parkiran kosong");
   }
+  antares.sendNonSecure(projectName, sensorultrasonik1);
+  antares.sendNonSecure(projectName, sensorPIR);
+  antares.sendNonSecure(projectName, sensorultrasonik2);
   delay(1000); 
 }
