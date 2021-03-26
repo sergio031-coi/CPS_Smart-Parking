@@ -3,13 +3,11 @@
 #include <ESP8266WiFi.h>
 #include "AntaresESP8266HTTP.h"
 
-#define ACCESSKEY "d523c0ae9f0d6eb4:0b7d61861736096b" //API key Antares
+#define ACCESSKEY "5b00cd16ad87ef4f:353456772f535c49" //API key Antares
 #define WIFISSID "Sergio" //SSID dan password wifi
 #define PASSWORD "12345678nz"
-#define projectName "Smart__Parking" //Nama Aplikasi Antares
-#define sensorultrasonik1 "Ultrasonik_Masuk"
-#define sensorPIR "PIR_Masuk"
-#define sensorultrasonik2 "Ultrasonik_Parkir" //Nama Device Antares
+#define projectName "Smart_--Parking" //Nama Aplikasi Antares
+#define deviceName "ParkirSensor" //Nama Device Antares
 
 AntaresESP8266HTTP antares(ACCESSKEY);
 
@@ -33,7 +31,7 @@ void setup()
   delay(2000);
   servo.write(0);
   pinMode(PIR, INPUT);
-  Serial.begin(9600); 
+  Serial.begin(115200); 
   lcd.begin();
   lcd.backlight();
   antares.setDebug(true);
@@ -43,7 +41,8 @@ void setup()
   Serial.println("");
  
   Serial.print("Connecting");
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) 
+  {
     delay(500);
     Serial.print(".");
   }
@@ -51,8 +50,10 @@ void setup()
   Serial.println("");
   Serial.print("Connected to ");
   Serial.println(WIFISSID);
-  
-  
+
+  antares.setDebug(true);
+  antares.wifiConnection(WIFISSID, PASSWORD);
+
 // Mengatur posisi kursor LCD  (kolom, baris)
   lcd.setCursor(0, 0);
 // Menampilkan Text pada LCD
@@ -85,17 +86,18 @@ void loop()
 
 //=============  ULTRASONIC MASUK  =================??
 
-  long duration, jarak;
+  long durasi; 
+  int jarak1, jarak2;
   int kondisiPIR = digitalRead(PIR);
   digitalWrite(trigger1, LOW);
   delayMicroseconds(2); 
   digitalWrite(trigger1, HIGH);
   delayMicroseconds(10); 
   digitalWrite(trigger1, LOW);
-  duration = pulseIn(echo1, HIGH);
-  jarak = (duration/2) / 29.1;
-
-  if(jarak >= 0 && jarak <=7  )
+  durasi = pulseIn(echo1, HIGH);
+  jarak1 = (durasi/2) / 29.1; 
+  
+  if(jarak1 >= 0 && jarak1 <=7  )
     {
       if(kondisiPIR == HIGH)
       {
@@ -105,7 +107,11 @@ void loop()
       lcd.print("Parkiran Telkom"); 
       servo.write(90);
       Serial.println("pintu terbuka"); 
-      antares.add("jarak", jarak);
+      Serial.println(jarak1);
+      Serial.println(kondisiPIR);
+      
+      //buat sebuah variabel penampung data yang akan dikrim ke Antares
+      antares.add("jarak Kendaraan", jarak1);
       antares.add("PIR", kondisiPIR);
       }
       else
@@ -126,17 +132,19 @@ void loop()
   digitalWrite(trigger2, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigger2, LOW);
-  duration =pulseIn(echo2, HIGH);
-  jarak= (duration/2) / 29.1;
+  durasi =pulseIn(echo2, HIGH);
+  jarak2= (durasi/2) / 29.1;
   
-  if(jarak >=0 && jarak <=7)
+  if(jarak2 >=0 && jarak2 <=7)
   { 
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("Parkiran Penuh");  
       delay(150);
       Serial.println("Parkiran Penuh");
-      antares.add("jarak", jarak);
+      antares.add("Jarak Parkiran", jarak2);
+      Serial.println(jarak2);
+      
   }
   else 
   {
@@ -146,8 +154,6 @@ void loop()
       delay(150);
       Serial.println("Parkiran kosong");
   }
-  antares.sendNonSecure(projectName, sensorultrasonik1);
-  antares.sendNonSecure(projectName, sensorPIR);
-  antares.sendNonSecure(projectName, sensorultrasonik2);
-  delay(1000); 
+  antares.send(projectName, deviceName);
+  delay(5000); 
 }
