@@ -51,6 +51,8 @@ void setup()
   Serial.print("Connected to ");
   Serial.println(WIFISSID);
 
+  //koneksikan ke  antares
+
   antares.setDebug(true);
   antares.wifiConnection(WIFISSID, PASSWORD);
 
@@ -86,8 +88,7 @@ void loop()
 
 //=============  ULTRASONIC MASUK  =================??
 
-  long durasi; 
-  int jarak1, jarak2;
+  int durasi, jarak1, jarak2;
   int kondisiPIR = digitalRead(PIR);
   digitalWrite(trigger1, LOW);
   delayMicroseconds(2); 
@@ -111,8 +112,8 @@ void loop()
       Serial.println(kondisiPIR);
       
       //buat sebuah variabel penampung data yang akan dikrim ke Antares
-      antares.add("jarak Kendaraan", jarak1);
-      antares.add("PIR", kondisiPIR);
+      antares.add("Jarak Kendaraan(cm)", jarak1);
+      antares.add("Kondisi PIR", kondisiPIR);
       }
       else
       {
@@ -142,7 +143,7 @@ void loop()
       lcd.print("Parkiran Penuh");  
       delay(150);
       Serial.println("Parkiran Penuh");
-      antares.add("Jarak Parkiran", jarak2);
+      antares.add("Jarak Parkiran(cm)", jarak2);
       Serial.println(jarak2);
       
   }
