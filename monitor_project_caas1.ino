@@ -1,15 +1,15 @@
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>  
 #include <ESP8266WiFi.h>
-#include "AntaresESP8266HTTP.h"
+#include <ESP8266HTTPClient.h>
 
-#define ACCESSKEY "5b00cd16ad87ef4f:353456772f535c49" //API key Antares
-#define WIFISSID "Sergio" //SSID dan password wifi
-#define PASSWORD "12345678nz"
-#define projectName "Smart_--Parking" //Nama Aplikasi Antares
-#define deviceName "ParkirSensor" //Nama Device Antares
+//wifi ssid dan password
+const char* ssid =  "Sergio"; 
+const char* pass  = "12345678nz";
 
-AntaresESP8266HTTP antares(ACCESSKEY);
+//host atau server yang menampung aplikasi web dan database
+
+const char* host = "192.168.43.186";
 
 Servo servo;       
 #define trigger1      D5  //trigger1  = trigger untuk portal masuk di pin D5       
@@ -34,27 +34,20 @@ void setup()
   Serial.begin(115200); 
   lcd.begin();
   lcd.backlight();
-  antares.setDebug(true);
   
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFISSID, PASSWORD);
-  Serial.println("");
- 
+  WiFi.begin(ssid, pass);
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) 
   {
-    delay(500);
     Serial.print(".");
+    delay(500);
   }
 
   Serial.println("");
   Serial.print("Connected to ");
-  Serial.println(WIFISSID);
+  Serial.println(ssid);
 
-  //koneksikan ke  antares
-
-  antares.setDebug(true);
-  antares.wifiConnection(WIFISSID, PASSWORD);
+  
 
 // Mengatur posisi kursor LCD  (kolom, baris)
   lcd.setCursor(0, 0);
@@ -110,21 +103,17 @@ void loop()
       Serial.println("pintu terbuka"); 
       Serial.println(jarak1);
       Serial.println(kondisiPIR);
-      
-      //buat sebuah variabel penampung data yang akan dikrim ke Antares
-      antares.add("Jarak Kendaraan(cm)", jarak1);
-      antares.add("Kondisi PIR", kondisiPIR);
       }
       else
       {
-       servo.write(0); 
+       servo.write(90); 
       }
     }   
   else
     {
       servo.write(0);
     }
-  delay(5000);
+  delay(1000);
 
 //==============  ULTRASONIC PARKIR1   ===============??
 
@@ -143,7 +132,6 @@ void loop()
       lcd.print("Parkiran Penuh");  
       delay(150);
       Serial.println("Parkiran Penuh");
-      antares.add("Jarak Parkiran(cm)", jarak2);
       Serial.println(jarak2);
       
   }
@@ -155,6 +143,35 @@ void loop()
       delay(150);
       Serial.println("Parkiran kosong");
   }
-  antares.send(projectName, deviceName);
-  delay(5000); 
+
+  //kirim data ke server
+
+ WiFiClient client ;
+ // inisialiasai port web server 80
+
+const int httpPort = 80;
+ if(!client.connect(host, httpPort) )
+ {
+  Serial.println("Connection Failed");
+  return;
+  }
+
+  //kondisi ketika terkoneksi, krim data sensor ke database atau  web
+
+  String Link ;
+  HTTPClient http;
+
+  Link = "http://" + String(host) + "/multisensor/kirimdata.php?jarak1=" + String(jarak1) + "&kondisiPIR=" + String(kondisiPIR) + "&jarak2=" + String(jarak2);
+  
+  //eksekusi alamat link
+  http.begin(Link);
+  http.GET();
+
+  //baca respon setelah berhasi kirim nilai sensor
+
+  String respon = http.getString();
+  Serial.println(respon);
+  http.end();
+  
+  delay(1000); 
 }
