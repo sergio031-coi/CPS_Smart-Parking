@@ -132,7 +132,6 @@ void loop()
       lcd.print("Parkiran Penuh");  
       delay(150);
       Serial.println("Parkiran Penuh");
-      Serial.println(jarak2);
       
   }
   else 
