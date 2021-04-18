@@ -252,18 +252,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-card text-center mb-30">
-                            <div class="card-top">
-                                <h5><span>Ultrasonic Masuk</span></h5>
-                            </div>
-                            <div class="card-bottom">
-                                <a href="#" class="btn card-btn1"><span id="cekultrasonicmasuk"> 0 </span></a>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-card  text-center mb-30">
                             <div class="card-top">
