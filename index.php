@@ -1,6 +1,5 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,17 +17,16 @@
 
     <!-- load otomatis/realtime --->
     <script type="text/javascript">
-      
-      $(document).ready(function(){
+        $(document).ready(function () {
 
-        setInterval(function(){
+            setInterval(function () {
 
-          $("#cekultrasonicmasuk").load("cekultrasonicmasuk.php");
-          $("#cekPIR").load("cekPIR.php");
-          $("#cekultrasonicparkir").load("cekultrasonicparkir.php");
-        }, 1000 );
+                $("#cekultrasonicmasuk").load("cekultrasonicmasuk.php");
+                $("#cekPIR").load("cekPIR.php");
+                $("#cekultrasonicparkir").load("cekultrasonicparkir.php");
+            }, 1000);
 
-      });
+        });
     </script>
 
     <!-- CSS here -->
@@ -66,8 +64,8 @@
                     <div class="row align-items-center">
                         <!-- Logo -->
                         <div class="col-xl-2 col-lg-2 col-md-2">
-                            <div class="logo">
-                                <a href="index.php"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <div class="logo img-fluid">
+                                <a href="index.php"><img src="assets/img/logo/logo2.png" alt="" width="150px" height="49px"></a>
                             </div>
                         </div>
                         <div class="col-xl-10 col-lg-10 col-md-10">
@@ -128,7 +126,8 @@
         </div>
         <!-- Slider Area End -->
         <!-- Best Features Start -->
-        <section class="best-features-area section-padd4" id="features" data-delay="1s">
+        <section class="animate best-features-area section-padd4" data-animate="fadeInUp" data-delay=".4s"
+            id="features">
             <div class="container">
                 <div class="row justify-content-end">
                     <div class="col-xl-8 col-lg-10">
@@ -174,7 +173,7 @@
             </div>
         </section>
         <!-- Best Features End -->
-        <!-- Services Area Start -->
+        <!-- About Area Start -->
         <section class="service-area sky-blue section-padding2" id="about">
             <div class="container">
                 <!-- Section Tittle -->
@@ -223,9 +222,10 @@
                 </div>
             </div>
         </section>
-        <!-- Services Area End -->
-        <!-- Best Pricing Start -->
-        <section class="best-pricing pricing-padding" data-background="assets/img/gallery/best_pricingbg.jpg" id="sensor">
+        <!-- About Area End -->
+        <!-- Monitor Start -->
+        <section class="best-pricing pricing-padding" data-background="assets/img/gallery/best_pricingbg.jpg"
+            id="sensor">
             <div class="container">
                 <!-- Section Tittle -->
                 <div class="row d-flex justify-content-center">
@@ -241,6 +241,18 @@
         <!-- Pricing Card Start -->
         <div class="pricing-card-area">
             <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-card text-center mb-30">
+                            <div class="card-top">
+                                <h5><span>Ultrasonic Masuk</span></h5>
+                            </div>
+                            <div class="card-bottom">
+                                <a href="#" class="btn card-btn1"><span id="cekultrasonicmasuk"> 0 </span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="single-card text-center mb-30">
@@ -342,9 +354,10 @@
     <!-- Jquery Slick , Owl-Carousel Plugins -->
     <script src="./assets/js/owl.carousel.min.js"></script>
     <script src="./assets/js/slick.min.js"></script>
+
     <!-- Date Picker -->
     <script src="./assets/js/gijgo.min.js"></script>
-    
+
     <!-- One Page, Animated-HeadLin -->
     <script src="./assets/js/wow.min.js"></script>
     <script src="./assets/js/animated.headline.js"></script>
